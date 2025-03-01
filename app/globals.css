@@ -76,15 +76,14 @@
     --chart-4: hsl(280, 65%, 60%);
     --chart-5: hsl(340, 75%, 55%);
   }
-}
 
-@layer base {
-  * {
+  *{
     border-color: hsl(var(--border, 240 5.9% 90%)); /* ✅ Fix border */
     outline-color: hsl(var(--ring) / 50%); /* ✅ Fix outline-ring */
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }

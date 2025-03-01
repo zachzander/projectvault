@@ -8,8 +8,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "hsl(var(--background))", // ✅ Ensure background is defined
-        foreground: "hsl(var(--foreground))",
         border: "hsl(var(--border))",
         ring: "hsl(var(--ring))",
         card: "hsl(var(--card))",
