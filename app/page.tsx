@@ -1,5 +1,5 @@
 "use client";
-import { useQuery, useMutation } from "convex/react";
+import { useQuery, useMutation, useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { UploadDialog } from "@/components/upload-dialog";
 import { Input } from "@/components/ui/input";
@@ -30,14 +30,16 @@ export default function Home() {
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [selectedSource, setSelectedSource] = useState<Source>("ALL");
   const [page, setPage] = useState(1);
-  const [githubResults, setGithubResults] = useState<GitHubProject[]>([]);
+  const [githubResults, setGithubResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   // Add null coalescing to handle undefined
   const files = useQuery(api.files.getFiles) ?? [];
-  const searchGithub = useMutation(api.github.searchProjects);
+  const searchGithub = useAction(api.github.searchProjects);
 
   const fetchGithubProjects = useCallback(async () => {
+    if (selectedSource === "MANUAL_UPLOAD") return;
+    
     setIsLoading(true);
     try {
       const results = await searchGithub({
@@ -45,6 +47,8 @@ export default function Home() {
         domains: selectedDomains,
         page,
       });
+      console.log("GitHub search results:", results); // Debug log
+
       if (page === 1) {
         setGithubResults(results);
       } else {
@@ -55,17 +59,22 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-  }, [searchGithub, searchQuery, selectedDomains, page]);
+  }, [searchGithub, searchQuery, selectedDomains, page, selectedSource]);
 
+  
+
+  // Fetch GitHub projects when search params change
   useEffect(() => {
     if (selectedSource !== "MANUAL_UPLOAD") {
       setPage(1);
       fetchGithubProjects();
     }
-  }, [searchQuery, selectedDomains, selectedSource, fetchGithubProjects]);
-  
+  }, [searchQuery, selectedDomains, selectedSource]);
+
+  // Load more handler
   const handleLoadMore = () => {
-    setPage(prevPage => prevPage + 1);
+    setPage(p => p + 1);
+    fetchGithubProjects();
   };
 
   // Filter files safely
@@ -121,7 +130,7 @@ export default function Home() {
         {/* Projects Grid */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* Manual Uploads */}
-          {selectedSource !== "GITHUB" && filteredFiles.map((file: File) => (
+          {filteredFiles?.map(file => (
             <ProjectCard
               key={file._id}
               project={{
@@ -139,7 +148,7 @@ export default function Home() {
           ))}
           
           {/* GitHub Projects */}
-          {selectedSource !== "MANUAL_UPLOAD" && githubResults.map((project: GitHubProject) => (
+          {selectedSource !== "MANUAL_UPLOAD" && githubResults.map(project => (
             <ProjectCard
               key={project.id}
               project={project}
@@ -153,6 +162,11 @@ export default function Home() {
             </div>
           )}
         </div>
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className="text-center py-4">Loading...</div>
+        )}
 
         {/* Load More Button */}
         {selectedSource !== "MANUAL_UPLOAD" && githubResults.length > 0 && (
