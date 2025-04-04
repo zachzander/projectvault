@@ -9,6 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Custom vault colors for specific components
+        "vault-dark": "hsl(285, 10%, 34%)",    // #5d4e60 - for hero section
+        "vault-medium": "hsl(291.72, 14.87%, 61.76%)",  // #a88fac
+        "vault-light": "hsl(291.43, 14.29%, 80.78%)",   // #d3c7d5
+
+        // Original theme colors
         border: "hsl(240, 5.9%, 90%)",  // Ensure border-border is defined
         ring: "hsl(240, 10%, 3.9%)",    // Ensure outline-ring/50 is recognized
         background: "hsl(0, 0%, 100%)",
@@ -17,9 +23,9 @@ const config: Config = {
         "card-foreground": "hsl(240, 10%, 3.9%)",
         popover: "hsl(0, 0%, 100%)",
         "popover-foreground": "hsl(240, 10%, 3.9%)",
-        primary: "hsl(240, 5.9%, 10%)",
+        primary: "hsl(285, 10%, 34%)",  // Using vault-dark for hero section
         "primary-foreground": "hsl(0, 0%, 98%)",
-        secondary: "hsl(240, 4.8%, 95.9%)",
+        secondary: "hsl(240, 4.8%, 95.9%)",  // Restored to original
         "secondary-foreground": "hsl(240, 5.9%, 10%)",
         muted: "hsl(240, 4.8%, 95.9%)",
         "muted-foreground": "hsl(240, 3.8%, 46.1%)",
@@ -27,7 +33,7 @@ const config: Config = {
         "accent-foreground": "hsl(240, 5.9%, 10%)",
         destructive: "hsl(0, 84.2%, 60.2%)",
         "destructive-foreground": "hsl(0, 0%, 98%)",
-        input: "hsl(240, 5.9%, 90%)",
+        input: "hsl(240, 5.9%, 90%)",  // Restored to original
         chart1: "hsl(12, 76%, 61%)",
         chart2: "hsl(173, 58%, 39%)",
         chart3: "hsl(197, 37%, 24%)",

@@ -2,7 +2,7 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 // Define possible roles - even if we're only using "member" for now
-export const projectSources = ["MANUAL_UPLOAD", "GITHUB"] as const;
+export const projectSources = ["MANUAL_UPLOAD", "GITHUB", "WEB"] as const;
 export const roles = v.union(v.literal("admin"), v.literal("member"));
 export const domains = [
   "Artificial Intelligence (AI) & Machine Learning (ML)",
@@ -48,6 +48,7 @@ export default defineSchema({
   
   files: defineTable({
     title: v.string(),
+    description: v.string(),
     orgId: v.optional(v.string()),
     url: v.string(),
     storageId: v.string(),
@@ -56,6 +57,8 @@ export default defineSchema({
     domains: v.array(v.string()),
     userId: v.string(),
     createdAt: v.number(),
+    year: v.string(),
+    publicationLink: v.optional(v.string()),
   })
   .index("by_org", ["orgId"])
   .index("by_user", ["userId"])

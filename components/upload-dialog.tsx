@@ -28,8 +28,11 @@ import { MultiSelect } from "./multi-select";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
   domains: z.array(z.string()).min(1, "Select at least one domain"),
   file: z.instanceof(File, { message: "File is required" }),
+  year: z.string().min(1, "Year is required"),
+  publicationLink: z.string().url("Please enter a valid URL").min(1, "Publication link is required"),
 });
 
 export function UploadDialog() {
@@ -42,7 +45,10 @@ export function UploadDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      description: "",
       domains: [],
+      year: "",
+      publicationLink: "",
     },
   });
 
@@ -66,10 +72,13 @@ export function UploadDialog() {
       
       await createFile({
         title: values.title,
+        description: values.description,
         domains: values.domains,
         storageId,
         type: values.file.type,
         size: values.file.size,
+        year: values.year,
+        publicationLink: values.publicationLink,
       });
 
       form.reset();
@@ -84,9 +93,9 @@ export function UploadDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Upload File</Button>
+        <Button className="bg-vault-light hover:bg-vault-light/90 text-black">Upload File</Button>
       </DialogTrigger>
-      <DialogContent className="bg-white dark:bg-gray-800">
+      <DialogContent className="bg-vault-light dark:bg-gray-800">
         <DialogHeader>
           <DialogTitle className="text-foreground">Upload File</DialogTitle>
         </DialogHeader>
@@ -108,6 +117,20 @@ export function UploadDialog() {
             
             <FormField
               control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Enter project description" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
               name="domains"
               render={({ field }) => (
                 <FormItem>
@@ -121,6 +144,34 @@ export function UploadDialog() {
                       selected={field.value}
                       onChange={field.onChange}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="year"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Year</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Enter year" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="publicationLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Publication Link</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Enter publication URL" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

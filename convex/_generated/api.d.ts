@@ -21,6 +21,7 @@ import type * as migration from "../migration.js";
 import type * as projects from "../projects.js";
 import type * as types from "../types.js";
 import type * as users from "../users.js";
+import type * as web from "../web.js";
 import type * as webhooks from "../webhooks.js";
 
 /**
@@ -40,6 +41,7 @@ declare const fullApi: ApiFromModules<{
   projects: typeof projects;
   types: typeof types;
   users: typeof users;
+  web: typeof web;
   webhooks: typeof webhooks;
 }>;
 export declare const api: FilterApi<

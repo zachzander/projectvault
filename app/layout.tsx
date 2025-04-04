@@ -17,9 +17,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} antialiased`}>
         <ConvexClientProvider>  
           <Header/>
@@ -32,9 +34,9 @@ export default function RootLayout({
 
 export function LocalHeader() {
   return (
-    <div className="border-b py-4 bg-gray-50">
+    <div className="border-b border-vault-light bg-vault-medium">
       <div className="container mx-auto flex items-center justify-between">
-        <div>ProjectVault</div>
+        <div className="text-vault-dark text-[14px] font-bold">ProjectVault</div>
         <OrganizationSwitcher createOrganizationMode={undefined} /> 
       </div>
     </div>

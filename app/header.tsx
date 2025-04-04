@@ -10,17 +10,13 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <div className="relative z-10 border-b py-4 bg-gray-50">
+    <div className="border-b border-vault-light/20 py-4 bg-white">
+
       <div className="items-center container mx-auto justify-between flex">
-        <Link href="/" className="flex gap-2 items-center text-xl text-black">
+        <Link href="/" className="flex gap-2 items-center text-xl text-vault-dark">
           ProjectVault
         </Link>
 
-        <SignedIn>
-          <Button variant={"outline"}>
-            <Link href="/dashboard/files">Your Files</Link>
-          </Button>
-        </SignedIn>
         <div className="flex gap-2">
           <OrganizationSwitcher 
             createOrganizationMode={undefined}

@@ -1,19 +1,22 @@
-import { GitHubProject, ManualProject } from "@/types/project";
+import { GitHubProject, ManualProject, WebProject } from "@/types/project";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { FileIcon } from "lucide-react";
+import { FileIcon, GlobeIcon } from "lucide-react";
 
 interface ProjectCardProps {
-  project: GitHubProject | ManualProject;
+  project: GitHubProject | ManualProject | WebProject;
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const isGitHub = project.source === "GITHUB";
+  const isWeb = project.source === "WEB";
 
   return (
     <div className="border p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-center gap-2 mb-2">
         {isGitHub ? (
           <GitHubLogoIcon className="h-4 w-4" />
+        ) : isWeb ? (
+          <GlobeIcon className="h-4 w-4" />
         ) : (
           <FileIcon className="h-4 w-4" />
         )}
@@ -28,7 +31,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         {project.domains.map((domain) => (
           <span 
             key={domain} 
-            className="bg-gray-100 px-2 py-1 rounded-full text-xs"
+            className="bg-vault-light px-2 py-1 rounded-full text-xs"
           >
             {domain}
           </span>
@@ -44,13 +47,21 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
       )}
 
+      {isWeb && (
+        <div className="flex gap-2 mt-2 text-xs text-gray-500">
+          <span>
+            Updated: {new Date((project as WebProject).lastUpdated).toLocaleDateString()}
+          </span>
+        </div>
+      )}
+
       <a 
         href={project.url} 
         target="_blank" 
         rel="noopener noreferrer"
-        className="text-blue-500 hover:underline mt-2 block text-sm"
+        className="text-vault-medium hover:underline mt-2 block text-sm"
       >
-        {isGitHub ? "View Repository" : "Download File"}
+        {isGitHub ? "View Repository" : isWeb ? "Visit Website" : "Download File"}
       </a>
     </div>
   );

@@ -18,10 +18,13 @@ export const generateUploadUrl = mutation({
 export const createFile = mutation({
   args: {
     title: v.string(),
+    description: v.string(),
     domains: v.array(v.string()),
     storageId: v.string(),
     type: v.string(),
     size: v.number(),
+    year: v.string(),
+    publicationLink: v.string(),
   },
   async handler(ctx, args) {
     const identity = await ctx.auth.getUserIdentity();
@@ -36,8 +39,8 @@ export const createFile = mutation({
 
     // Create the file record in the database
     return await ctx.db.insert("files", {
-     
       title: args.title,
+      description: args.description,
       domains: args.domains,
       storageId: args.storageId,
       type: args.type,
@@ -46,6 +49,8 @@ export const createFile = mutation({
       orgId: process.env.SHARED_ORGANIZATION_ID!,
       userId: identity.subject,
       createdAt: Date.now(),
+      year: args.year,
+      publicationLink: args.publicationLink,
     });
   },
 });

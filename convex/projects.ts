@@ -18,6 +18,7 @@ export const createFile = mutation({
     
     await ctx.db.insert("files", {
       title: args.name,
+      description: "",
       orgId: process.env.SHARED_ORGANIZATION_ID!,
       url: "",
       storageId: "",
@@ -26,6 +27,8 @@ export const createFile = mutation({
       domains: [],
       userId: identity.subject,
       createdAt: Date.now(),
+      year: "",
+      publicationLink: "",
     });
   },
 });

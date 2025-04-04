@@ -8,6 +8,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'vault-dark': '#5d4e60',    // Deep purple-grey
+        'vault-medium': '#826c7f',  // Mauve
+        'vault-light': '#a88fac',
         background: "hsl(var(--background))", // ✅ Ensure background is defined
         foreground: "hsl(var(--foreground))",
         border: "hsl(var(--border))",
@@ -27,6 +30,8 @@ module.exports = {
         destructive: "hsl(var(--destructive))",
         "destructive-foreground": "hsl(var(--destructive-foreground))",
         input: "hsl(var(--input))",
+        'gradient-start': '#ff80b5',
+        'gradient-end': '#9089fc',
       },
     },
   },

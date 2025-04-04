@@ -1,4 +1,4 @@
-export type ProjectSource = "GITHUB" | "MANUAL_UPLOAD";
+export type ProjectSource = "GITHUB" | "MANUAL_UPLOAD" | "WEB";
 
 export interface BaseProject {
   id: string;
@@ -21,4 +21,10 @@ export interface ManualProject extends BaseProject {
   source: "MANUAL_UPLOAD";
   fileUrl: string;
   size: number;
+}
+
+export interface WebProject extends BaseProject {
+  source: "WEB";
+  snippet: string;
+  lastUpdated: string;
 } 
